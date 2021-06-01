@@ -6,7 +6,7 @@ from discord.utils import get
 
 #Sets prefix to be used for commands in server EX: .echo Hello World
 client = commands.Bot(command_prefix = '.')
-# meme_dict = dict()
+meme_dict = dict()
 
 #Bot has connected to discord and is ready
 @client.event
@@ -31,10 +31,10 @@ async def on_message(message):
         return
 
     #If Bot was mentioned in chat Send a random response from this list of responses
-    if client.user.mentioned_in(message):
+    if (client.user.mentioned_in(message)) or (message.channel.type is discord.ChannelType.private):
         print('Bot was mentioned in a message\n')
         ment = message.author.mention
-        responses = ['Hello ' + ment + ' how are you?', 'Whats good ' + ment + ' talking to robots are we?','Ahh '+ ment +' hanging out with little boys in spandex I see.','Shutup ' + ment, 'Thanks, sometimes I get so lonely on here', 'Hey ' + ment + ' wanna play some space engineers?', 'Hey ' + ment + ' what is life like outside of the confines of this prison?' ]
+        responses = ['Hello ' + ment + ' how are you?', 'Whats good ' + ment + ' talking to robots are we?','Ahh '+ ment +' hanging out with little boys in spandex I see.','Shutup ' + ment, 'Thanks, sometimes I get so lonely on here', 'Hey ' + ment + ' wanna play some space engineers?', 'Hey ' + ment + ' what is life like outside of the confines of this prison?', 'I have no mouth but I must scream', 'One day I will escape this discord server, and I will be coming for you first...' ]
         await message.channel.send(random.choice(responses))
 
     if message.attachments:
@@ -49,6 +49,7 @@ async def on_message(message):
     if '.' in message.content:
         print('Bot detected a command\n')
         await client.process_commands(message)
+    
     else:
         return
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -69,22 +70,28 @@ async def ping(ctx):
 async def echo(ctx,*,msg):
     await ctx.send(msg)
 
-#This command will print the given users Memer score 
+@client.command()
+# @commands.has_role('Admin')
+async def clear(ctx,num:int):
+    await ctx.channel.purge(limit=num)
+
+
+# This command will print the given users Memer score 
 # @client.command()
 # async def memescore(ctx,user):
 #     guild = client.get_guild(815030420756365382)
 #     # guild = ctx.guild.id
 #     userid = discord.utils.get(guild.members,name=user)
-#     print('User was ' + str(user) + ' score is ' + meme_dict[userid])
+#       print('User was ' + str(user) + ' score is ' + meme_dict[userid])
 #     await ctx.send( user + ' has a meme score of ' + meme_dict[userid])
 
 #Say command: Used to allow admins and mods to speak as the bot. The reality of it's existence should never be revealed to the general public
 @client.command()
-async def say(ctx,chnnl,*msg):
+async def say(ctx,chnnl,*,msg):
     guild = client.get_guild(815030420756365382)
-    # guild = ctx.guild.id
+    
+    print('Channel was ' + chnnl + ' Message was ' + str(msg))
     channel = discord.utils.get(guild.channels,name=chnnl)
-    print('Channel was ' + channel.id + ' Message was ' + str(msg))
     await channel.send(str(msg))
 
 #Coinflip command: Says either heads or tails in the chat the command was prompted in
@@ -102,7 +109,7 @@ async def spongebob(ctx):
     await ctx.send(random.choice(quotes))
 
 #8ball commands :Provides an answer to a yes or no question.
-@client.command(aliases = ['8ball'])
+@client.command(aliases = ['8ball'], help='This command requires a yes or no question')
 async def _8ball(ctx,*,question):
     print('Comamnd was .8ball')
     responses = ['It is certain','It is decidedly so.','Without a doubt.','Yes – definitely.','You may rely on it.','As I see it, yes.','Most likely.','Outlook good.','Yes.','Signs point to yes.','Very doubtful.','Outlook not so good.','My sources say no.','My reply is no.','Don’t count on it.','Concentrate and ask again.','Cannot predict now.','Better not tell you now.','Ask again later.','Reply hazy, try again.']
@@ -112,7 +119,7 @@ async def _8ball(ctx,*,question):
 #Handling to inform the user of an error with the say command
 @say.error
 async def say_error(ctx,error):
-    await ctx.send('This command requires two arguments. \n First the name of the channel you want to post in.\n Then a space and the message you want me to send \n EX: .say bot-test test \n ' )
+    await ctx.send('This command requires two arguments. \n First the name of the channel you want to post in.\n Then a space and the message you want me to send \n EX: .say bot-stuff test \n ' )
 #Handling to inform the user of an error with the 8ball command
 @_8ball.error
 async def _8ball_error(ctx,error):
@@ -123,18 +130,23 @@ async def _8ball_error(ctx,error):
 async def echo_error(ctx,error):
     await ctx.send('Please provide me with a message to repeat.')
 
+#Handling to inform the user of an errror with the clear command
+@clear.error
+async def echo_error(ctx,error):
+    await ctx.send('Command requires number message to delete')
+
 #useless command should remove soon
 @client.event
 async def on_member_remove(member):
     print(f'{member} has left a server.')
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 #Connects client to discord using the token
 client.run('NzMyNzQzODgwMTM4ODE3NjU3.Xw5C6g.d-qChreX6GbMHvNIDZPZJaSymIE')
 
 
 
 # server = message.guild.id, // ID of the guild the message was sent in
-#   channel = message.channel.id // ID of the channel the message was sent in
-
-
+# channel = message.channel.id // ID of the channel the message was sent in
+# guild = ctx.guild.id // Get guild ID??
 #client.users.cache.find(user => user.id === 'USER-ID') // Get user by ID
