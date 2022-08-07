@@ -142,7 +142,7 @@ async def on_member_remove(member):
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #Connects client to discord using the token
-client.run('NzMyNzQzODgwMTM4ODE3NjU3.Xw5C6g.d-qChreX6GbMHvNIDZPZJaSymIE')
+client.run('NzMyNzQzODgwMTM4ODE3NjU3.Gd4JqE.XUYYQehGpsZ6VE0KEGaPHQz6N6rMvQwIXCMCHQ')
 
 
 
