@@ -1,7 +1,7 @@
 #Imports discord api and commands from discord api
 import discord
 import random
-import botoken import token
+from botoken import token
 from discord.ext import commands
 from discord.utils import get
 
