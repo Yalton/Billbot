@@ -19,7 +19,7 @@ async def on_ready():
     # memberList = guild.members
     # for members in guild.members: 
     #     meme_dict[members.id] = 0
-    await channel.send('Ah it sure is nice to be alive again.')
+    #await channel.send('Ah it sure is nice to be alive again.')
     
 
 #On message function, massive
