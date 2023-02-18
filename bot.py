@@ -6,7 +6,7 @@ from discord.ext import commands
 from discord.utils import get
 
 #Sets prefix to be used for commands in server EX: .echo Hello World
-client = commands.Bot(command_prefix = '.',intents=discord.Intents.default())
+client = commands.Bot(command_prefix = '.',intents=discord.Intents.all())
 meme_dict = dict()
 
 #Bot has connected to discord and is ready
