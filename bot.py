@@ -5,8 +5,14 @@ from botoken import token
 from discord.ext import commands
 from discord.utils import get
 
+
+#intents = discord.Intents.all()
+#intents.members = True
+#intents.typing = True
+#intents.presences = True
+
 #Sets prefix to be used for commands in server EX: .echo Hello World
-client = commands.Bot(command_prefix = '.',intents=discord.Intents.all())
+client = commands.Bot(command_prefix = '.')
 meme_dict = dict()
 
 #Bot has connected to discord and is ready
