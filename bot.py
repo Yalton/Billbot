@@ -12,16 +12,11 @@ from discord.utils import get
 #intents.presences = True
 
 #Sets prefix to be used for commands in server EX: .echo Hello World
-<<<<<<< HEAD
-client = commands.Bot(command_prefix = '.')
-meme_dict = dict()
-=======
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = '.', intents=intents)
 
 #client = commands.Bot(command_prefix = '|',intents=discord.Intents.default())
 #meme_dict = dict()
->>>>>>> d73257321cf3e2db19ea9f90f36452dc6495f4d0
 
 #Bot has connected to discord and is ready
 @client.event
