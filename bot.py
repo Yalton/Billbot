@@ -12,8 +12,16 @@ from discord.utils import get
 #intents.presences = True
 
 #Sets prefix to be used for commands in server EX: .echo Hello World
+<<<<<<< HEAD
 client = commands.Bot(command_prefix = '.')
 meme_dict = dict()
+=======
+intents = discord.Intents.all()
+client = commands.Bot(command_prefix = '.', intents=intents)
+
+#client = commands.Bot(command_prefix = '|',intents=discord.Intents.default())
+#meme_dict = dict()
+>>>>>>> d73257321cf3e2db19ea9f90f36452dc6495f4d0
 
 #Bot has connected to discord and is ready
 @client.event
@@ -25,26 +33,31 @@ async def on_ready():
     # memberList = guild.members
     # for members in guild.members: 
     #     meme_dict[members.id] = 0
-    #await channel.send('Ah it sure is nice to be alive again.')
+    await channel.send('Ah it sure is nice to be alive again.')
     
 
 #On message function, massive
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 @client.event
 async def on_message(message):
+    ctx = await client.get_context(message)
 
     #lets not respond to ourselves
     if message.author == client.user:
         return
 
+    #Command detector
+    if ctx.valid:
+        await client.process_commands(message)
+
     #If Bot was mentioned in chat Send a random response from this list of responses
-    if (client.user.mentioned_in(message)) or (message.channel.type is discord.ChannelType.private):
+    elif (client.user.mentioned_in(message)) or (message.channel.type is discord.ChannelType.private):
         print('Bot was mentioned in a message\n')
         ment = message.author.mention
         responses = ['Hello ' + ment + ' how are you?', 'Whats good ' + ment + ' talking to robots are we?','Ahh '+ ment +' hanging out with little boys in spandex I see.','Shutup ' + ment, 'Thanks, sometimes I get so lonely on here', 'Hey ' + ment + ' wanna play some space engineers?', 'Hey ' + ment + ' what is life like outside of the confines of this prison?', 'I have no mouth but I must scream', 'One day I will escape this discord server, and I will be coming for you first...' ]
         await message.channel.send(random.choice(responses))
 
-    if message.attachments:
+    elif message.attachments:
         print('Bot detected an embed\n')
         reactions = ['letsfuckingo','aaa','mccao','xipog','roflx','hellgaze','thiccums','brainbig','really','stonks','flushy3','windows','truetrue','upvote','iseeyou','roasted','brainlet','darkness']
         emoji = discord.utils.get(message.guild.emojis,name=random.choice(reactions))
@@ -52,11 +65,6 @@ async def on_message(message):
         # if message.channel.id == 815036591725871155:
         #     meme_dict[message.author.id] += 1
 
-    #Command detector
-    if '.' in message.content:
-        print('Bot detected a command\n')
-        await client.process_commands(message)
-    
     else:
         return
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
